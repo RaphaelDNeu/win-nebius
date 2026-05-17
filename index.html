@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>Raphael Neuhaus, Nebius Benelux interview</title>
+
+    <link rel="stylesheet" href="lib/reveal/dist/reset.css">
+    <link rel="stylesheet" href="lib/reveal/dist/reveal.css">
+    <link rel="stylesheet" href="css/theme.css">
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- slides are injected from content.js via js/archetypes.js -->
+      </div>
+    </div>
+
+    <script src="lib/reveal/dist/reveal.js"></script>
+    <script src="lib/reveal/dist/plugin/notes.js"></script>
+    <script src="content.js"></script>
+    <script src="js/archetypes.js"></script>
+    <script>
+      /*
+       * Bootstrap order matters: archetypes.js must mount slides into the
+       * DOM before Reveal.initialize runs, otherwise reveal counts zero
+       * slides and shows a blank deck.
+       */
+      window.NEBIUS_DECK.mount();
+
+      Reveal.initialize({
+        hash: true,
+        history: true,
+        controls: true,
+        progress: true,
+        slideNumber: 'c/t',
+        transition: 'slide',
+        backgroundTransition: 'fade',
+        width: 1920,
+        height: 1080,
+        margin: 0.04,
+        minScale: 0.2,
+        maxScale: 2.0,
+        /* PDF export: one slide per page, no auto-pagination of tall slides */
+        pdfMaxPagesPerSlide: 1,
+        pdfSeparateFragments: false,
+        plugins: [RevealNotes]
+      });
+    </script>
+  </body>
+</html>

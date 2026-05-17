@@ -1,0 +1,8 @@
+.DS_Store
+.claude/
+*.docx
+NEBIUS_DECK_BRIEF.md
+Section_1_and_2_structure_renewed*.docx
+Screenshot*.png
+deck.pdf
+node_modules/
