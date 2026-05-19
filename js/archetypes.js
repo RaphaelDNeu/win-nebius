@@ -35,7 +35,13 @@
 
   function notesBlock(notes) {
     if (!notes) return '';
-    return '<aside class="notes">' + esc(notes) + '</aside>';
+    /* preserve line breaks and bullet glyphs for the presenter view. */
+    return '<aside class="notes">' + esc(notes).replace(/\n/g, '<br>') + '</aside>';
+  }
+
+  function orientBlock(orient) {
+    if (!orient) return '';
+    return '<div class="orient-mark">' + esc(orient) + '</div>';
   }
 
   /* ----- archetype: title ------------------------------------------- */
@@ -43,7 +49,7 @@
     var eyebrow = d.eyebrow ? '<div class="t-eyebrow">' + esc(d.eyebrow) + '</div>' : '';
     var subtitle = d.subtitle ? '<div class="t-subtitle">' + esc(d.subtitle) + '</div>' : '';
     var meta = d.meta ? '<div class="t-meta">' + esc(d.meta) + '</div>' : '';
-    var logo = d.showLogo ? '<div class="t-logo">NEBIUS</div>' : '';
+    var logo = d.showLogo ? '<img class="t-logo" src="images/logos/nebius.svg" alt="Nebius">' : '';
     return (
       '<div class="archetype archetype-title">' +
       '  <div class="t-mark"></div>' +
@@ -62,6 +68,7 @@
   function renderStatement(d) {
     var eyebrow = d.eyebrow ? '<div class="s-eyebrow">' + esc(d.eyebrow) + '</div>' : '';
     var sub = d.sub ? '<p class="s-sub">' + esc(d.sub) + '</p>' : '';
+    var footnote = d.footnote ? '<p class="s-footnote">' + esc(d.footnote) + '</p>' : '';
     var mark = d.accent ? '<div class="s-mark"></div>' : '';
     return (
       '<div class="archetype archetype-statement">' +
@@ -69,6 +76,7 @@
       '  ' + eyebrow +
       '  <h2 class="s-headline">' + esc(d.headline) + '</h2>' +
       '  ' + sub +
+      '  ' + footnote +
       '</div>'
     );
   }
@@ -127,16 +135,47 @@
   }
 
   /* ----- archetype: image ------------------------------------------- */
+  /* Full-bleed image. When the slide is configured as fullBleed, no       */
+  /* caption and no scrim render. When the configured src 404s, the       */
+  /* placeholder swaps in so the slide is never blank with alt-text only. */
   function renderImage(d) {
-    var caption = d.caption ? '<div class="i-caption">' + esc(d.caption) + '</div>' : '';
+    var fullBleed = !!d.fullBleed;
+    var caption = (!fullBleed && d.caption)
+      ? '<div class="i-caption">' + esc(d.caption) + '</div>' : '';
+    var scrim = fullBleed ? '<div class="i-scrim i-scrim-soft"></div>' : '<div class="i-scrim"></div>';
     var src = d.src || '';
-    var alt = d.alt || d.caption || 'placeholder';
-    var inner = src
-      ? '<img class="i-img" src="' + esc(src) + '" alt="' + esc(alt) + '">'
-      : '<div class="i-placeholder">PLACEHOLDER: ' + esc(d.placeholder || alt) + '</div>';
+    var placeholderLabel = d.placeholder || d.alt || 'image';
+    var placeholderHtml =
+      '<div class="i-placeholder">' +
+      '  <div class="i-placeholder-label">PLACEHOLDER</div>' +
+      '  <div class="i-placeholder-detail">' + esc(placeholderLabel) + '</div>' +
+      '</div>';
+    var inner;
+    if (src) {
+      /* On 404 the img hides itself and the next-sibling placeholder shows. */
+      inner =
+        '<img class="i-img" src="' + esc(src) + '" alt=""' +
+        ' onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\';">' +
+        placeholderHtml.replace('class="i-placeholder"', 'class="i-placeholder" style="display:none"');
+    } else {
+      inner = placeholderHtml;
+    }
+    /* Optional overlay logo + label, used by the Hangzhou + DeepSeek slide. */
+    var overlay = '';
+    if (d.overlay) {
+      var oLogo = d.overlay.logoSrc
+        ? '<img class="i-overlay-logo" src="' + esc(d.overlay.logoSrc) + '" alt=""' +
+          ' onerror="this.style.display=\'none\';">'
+        : '';
+      var oLabel = d.overlay.label
+        ? '<div class="i-overlay-label">' + esc(d.overlay.label) + '</div>'
+        : '';
+      overlay = '<div class="i-overlay">' + oLogo + oLabel + '</div>';
+    }
+    var frameClass = fullBleed ? 'i-frame i-frame-fullbleed' : 'i-frame';
     return (
       '<div class="archetype archetype-image">' +
-      '  <div class="i-frame">' + inner + '<div class="i-scrim"></div>' + caption + '</div>' +
+      '  <div class="' + frameClass + '">' + inner + scrim + overlay + caption + '</div>' +
       '</div>'
     );
   }
@@ -147,19 +186,47 @@
       var lines = (c.lines || []).map(function (l) {
         return '<li>' + esc(l) + '</li>';
       }).join('');
+      var accentCls = c.accent === 'lime'   ? ' c-card-lime'
+                    : c.accent === 'purple' ? ' c-card-purple'
+                    : '';
+      /* Optional small logo above the card headline. Image hides itself on */
+      /* 404 so the card still reads cleanly with the headline alone.        */
+      var logo = '';
+      if (c.logoSrcs && c.logoSrcs.length) {
+        logo = '<div class="c-card-logos">' + c.logoSrcs.map(function (s) {
+          return '<img class="c-card-logo" src="' + esc(s) + '" alt=""' +
+            ' onerror="this.style.display=\'none\';">';
+        }).join('') + '</div>';
+      } else if (c.logoSrc) {
+        logo = '<img class="c-card-logo" src="' + esc(c.logoSrc) + '" alt=""' +
+          ' onerror="this.style.display=\'none\';">';
+      }
+      /* Optional product-motion tag(s). Single string -> one chip;          */
+      /* array -> stacked chips (used when one card covers two accounts).    */
+      var tagHtml = '';
+      var tagList = Array.isArray(c.tags) ? c.tags : (c.tag ? [c.tag] : []);
+      if (tagList.length) {
+        tagHtml = '<div class="c-card-tags">' + tagList.map(function (t) {
+          return '<span class="c-card-tag">' + esc(t) + '</span>';
+        }).join('') + '</div>';
+      }
       return (
-        '<div class="c-card fragment fade-up">' +
+        '<div class="c-card' + accentCls + '">' +
+        '  ' + logo +
         '  <div class="c-card-headline">' + esc(c.headline) + '</div>' +
         (lines ? '<ul class="c-card-lines">' + lines + '</ul>' : '') +
+        '  ' + tagHtml +
         '</div>'
       );
     }).join('');
     var eyebrow = d.eyebrow ? '<div class="c-eyebrow">' + esc(d.eyebrow) + '</div>' : '';
     var headline = d.headline ? '<h2 class="c-headline">' + esc(d.headline) + '</h2>' : '';
+    var sub = d.sub ? '<p class="c-sub">' + esc(d.sub) + '</p>' : '';
+    var equal = d.equalHeight ? ' c-grid-equal' : '';
     return (
       '<div class="archetype archetype-cards">' +
-      '  <div class="c-header">' + eyebrow + headline + '</div>' +
-      '  <div class="c-grid c-grid-' + Math.min((d.cards || []).length, 4) + '">' + cards + '</div>' +
+      '  <div class="c-header">' + eyebrow + headline + sub + '</div>' +
+      '  <div class="c-grid c-grid-' + Math.min((d.cards || []).length, 4) + equal + '">' + cards + '</div>' +
       '</div>'
     );
   }
@@ -195,11 +262,13 @@
     }).join('');
 
     var eyebrow = d.eyebrow ? '<div class="id-eyebrow">' + esc(d.eyebrow) + '</div>' : '';
+    var headline = d.headline ? '<h2 class="id-headline">' + esc(d.headline) + '</h2>' : '';
 
     return (
       '<div class="archetype archetype-imagedata">' +
       '  <div class="id-left">' +
       '    ' + eyebrow +
+      '    ' + headline +
       '    <div class="id-stats">' + stats + '</div>' +
       '  </div>' +
       '  <div class="id-grid">' + images + '</div>' +
@@ -215,16 +284,28 @@
     var items = (d.logos || []).map(function (l) {
       var color = l.accent === 'lime' ? 'lg-lime' : 'lg-white';
       var sub = l.sub ? '<div class="lg-sub">' + esc(l.sub) + '</div>' : '';
+      /* If a src is supplied, attempt the image; on 404 the image hides    */
+      /* itself and the wordmark fallback (sibling) shows instead.          */
+      var mark;
+      var imgClass = 'lg-img' + (l.size === 'lg' ? ' lg-img-lg' : '');
+      if (l.src) {
+        mark =
+          '<img class="' + imgClass + '" src="' + esc(l.src) + '" alt="' + esc(l.name) + '"' +
+          ' onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'block\';">' +
+          '<div class="lg-mark" style="display:none">' + esc(l.name) + '</div>';
+      } else {
+        mark = '<div class="lg-mark">' + esc(l.name) + '</div>';
+      }
       return (
         '<div class="lg-item ' + color + '">' +
-        '  <div class="lg-mark">' + esc(l.name) + '</div>' +
+        '  ' + mark +
         '  ' + sub +
         '</div>'
       );
     }).join('');
     var eyebrow = d.eyebrow ? '<div class="lg-eyebrow">' + esc(d.eyebrow) + '</div>' : '';
     var headline = d.headline ? '<h2 class="lg-headline">' + esc(d.headline) + '</h2>' : '';
-    var cols = Math.min((d.logos || []).length, 4);
+    var cols = Math.min((d.logos || []).length, 5);
     return (
       '<div class="archetype archetype-logos">' +
       '  <div class="lg-header">' + eyebrow + headline + '</div>' +
@@ -251,6 +332,10 @@
         ? '<div class="th-secondary"><span class="th-secondary-value">' + esc(col.secondary.value) + '</span> ' +
           '<span class="th-secondary-label">' + esc(col.secondary.label || '') + '</span></div>'
         : '';
+      var lines = (col.lines || []).map(function (l) {
+        return '<li>' + esc(l) + '</li>';
+      }).join('');
+      var linesBlock = lines ? '<ul class="th-lines">' + lines + '</ul>' : '';
       return (
         '<div class="th-col">' +
         '  <div class="th-col-label">' + esc(col.label || '') + '</div>' +
@@ -258,6 +343,7 @@
         '  ' + hero +
         '  ' + context +
         '  ' + secondary +
+        '  ' + linesBlock +
         '</div>'
       );
     }).join('');
@@ -331,6 +417,26 @@
     );
   }
 
+  /* ----- archetype: points ------------------------------------------ */
+  /* Headline plus up to four fragment bullets. Used by the deal-section */
+  /* slides 12 to 17 where each slide carries one idea and a short list   */
+  /* of supporting fragments, never full prose.                          */
+  function renderPoints(d) {
+    var items = (d.points || []).slice(0, 4).map(function (p) {
+      return '<li class="p-item">' + esc(p) + '</li>';
+    }).join('');
+    var eyebrow = d.eyebrow ? '<div class="p-eyebrow">' + esc(d.eyebrow) + '</div>' : '';
+    var headline = d.headline ? '<h2 class="p-headline">' + esc(d.headline) + '</h2>' : '';
+    return (
+      '<div class="archetype archetype-points">' +
+      '  <div class="p-mark"></div>' +
+      '  ' + eyebrow +
+      '  ' + headline +
+      '  <ul class="p-list">' + items + '</ul>' +
+      '</div>'
+    );
+  }
+
   var renderers = {
     title: renderTitle,
     statement: renderStatement,
@@ -341,7 +447,8 @@
     thesis: renderThesis,
     diagram: renderDiagram,
     timeline: renderTimeline,
-    logos: renderLogos
+    logos: renderLogos,
+    points: renderPoints
   };
 
   function renderSlide(slide) {
@@ -353,6 +460,7 @@
     var transition = slide.archetype === 'title' ? ' data-transition="fade"' : '';
     return (
       '<section' + id + ' data-archetype="' + esc(slide.archetype) + '"' + transition + '>' +
+      orientBlock(slide.orient) +
       fn(slide.data || {}) +
       notesBlock(slide.notes) +
       '</section>'

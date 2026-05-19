@@ -111,6 +111,24 @@ html, body, .reveal-viewport, .reveal {
   letter-spacing: 0.04em;
 }
 
+/* ----- orientation marker ---------------------------------------- */
+/* Small muted label, top-right corner, indicates the current section. */
+/* Lower-case, never the word "section." Skipped on title and          */
+/* full-bleed image slides.                                            */
+.reveal .slides > section > .orient-mark {
+  position: absolute;
+  top: 36px;
+  right: 56px;
+  font-family: var(--nb-font-body);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--nb-text-body);
+  opacity: 0.55;
+  z-index: 5;
+  pointer-events: none;
+}
+
 /* ----- archetype shell ------------------------------------------- */
 .archetype {
   position: relative;
@@ -139,14 +157,9 @@ html, body, .reveal-viewport, .reveal {
   position: absolute;
   top: var(--nb-space-5);
   right: var(--nb-space-5);
-  font-family: var(--nb-font-display);
-  font-weight: 700;
-  font-size: 22px;
-  letter-spacing: 0.02em;
-  color: var(--nb-bg);
-  background: var(--nb-lime);
-  padding: 10px 18px;
-  border-radius: var(--nb-radius-pill);
+  height: 44px;
+  width: auto;
+  display: block;
 }
 .archetype-title .t-block { max-width: 80%; }
 .archetype-title .t-eyebrow {
@@ -159,7 +172,7 @@ html, body, .reveal-viewport, .reveal {
   margin-bottom: var(--nb-space-3);
 }
 .archetype-title .t-title {
-  font-size: 180px;
+  font-size: 144px;
   font-weight: 500;
   letter-spacing: -0.03em;
   color: var(--nb-text-head);
@@ -219,6 +232,15 @@ html, body, .reveal-viewport, .reveal {
   font-size: 40px;
   line-height: 1.25;
   color: var(--nb-text-body);
+  max-width: 75%;
+}
+.archetype-statement .s-footnote {
+  margin-top: var(--nb-space-3);
+  font-family: var(--nb-font-body);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1.3;
+  color: var(--nb-text-muted, var(--nb-purple-tint));
   max-width: 75%;
 }
 
@@ -375,26 +397,77 @@ html, body, .reveal-viewport, .reveal {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: saturate(0.7);
 }
+.archetype-image .i-frame-fullbleed { background: #0a1a26; }
 .archetype-image .i-placeholder {
   width: 100%;
   height: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
+  gap: 12px;
+  padding: var(--nb-space-3);
   font-family: var(--nb-font-display);
-  font-size: 44px;
   color: var(--nb-purple-tint);
   letter-spacing: 0.02em;
   background:
     repeating-linear-gradient(45deg, #1a3447 0 24px, #173043 24px 48px);
 }
+.archetype-image .i-placeholder-label {
+  font-family: var(--nb-font-body);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--nb-purple-tint);
+  opacity: 0.85;
+}
+.archetype-image .i-placeholder-detail {
+  font-family: var(--nb-font-display);
+  font-size: 44px;
+  font-weight: 500;
+  color: var(--nb-text-head);
+  max-width: 70%;
+  line-height: 1.15;
+}
 .archetype-image .i-scrim {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(5,43,66,0.25) 0%, rgba(5,43,66,0.85) 100%);
+    linear-gradient(180deg, rgba(5,43,66,0.10) 0%, rgba(5,43,66,0.55) 100%);
+}
+/* Softer overall scrim for full-bleed photos: gently dim the highlights */
+/* without crushing the image. Used for the Hangzhou and teaching slides. */
+.archetype-image .i-scrim-soft {
+  background:
+    linear-gradient(180deg, rgba(5,43,66,0.05) 0%, rgba(5,43,66,0.20) 100%);
+}
+/* Overlay block for the Hangzhou + DeepSeek combination. Sits bottom-left */
+/* over the photo, white text, small DeepSeek mark.                         */
+.archetype-image .i-overlay {
+  position: absolute;
+  left: var(--nb-space-5);
+  bottom: var(--nb-space-5);
+  display: flex;
+  align-items: center;
+  gap: var(--nb-space-2);
+  z-index: 2;
+}
+.archetype-image .i-overlay-logo {
+  height: 120px;
+  width: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.95;
+}
+.archetype-image .i-overlay-label {
+  font-family: var(--nb-font-display);
+  font-weight: 500;
+  font-size: 84px;
+  color: var(--nb-text-head);
+  line-height: 1;
+  letter-spacing: -0.01em;
 }
 .archetype-image .i-caption {
   position: absolute;
@@ -423,17 +496,29 @@ html, body, .reveal-viewport, .reveal {
   font-size: 64px;
   color: var(--nb-text-head);
   line-height: 1.05;
-  margin-bottom: var(--nb-space-3);
+  margin-bottom: var(--nb-space-2);
   max-width: 80%;
+}
+.archetype-cards .c-sub {
+  font-family: var(--nb-font-body);
+  font-size: 22px;
+  color: var(--nb-text-body);
+  line-height: 1.4;
+  margin: 0 0 var(--nb-space-3) 0;
+  max-width: 70%;
 }
 .archetype-cards .c-grid {
   display: grid;
   gap: var(--nb-space-2);
-  flex: 1;
+  align-content: start;
+  align-items: stretch;
 }
 .archetype-cards .c-grid-2 { grid-template-columns: 1fr 1fr; }
 .archetype-cards .c-grid-3 { grid-template-columns: repeat(3, 1fr); }
 .archetype-cards .c-grid-4 { grid-template-columns: repeat(4, 1fr); }
+/* All card grids are equal-height by default: every card on a slide    */
+/* matches the tallest sibling, even if some have less text.            */
+.archetype-cards .c-card { height: 100%; }
 .archetype-cards .c-card {
   background: var(--nb-card);
   border-radius: var(--nb-radius-card);
@@ -441,6 +526,51 @@ html, body, .reveal-viewport, .reveal {
   display: flex;
   flex-direction: column;
   gap: var(--nb-space-2);
+  position: relative;
+  overflow: hidden;
+}
+/* Accent variants: a thin top-edge stripe in lime or electric purple to */
+/* call out the structural-prize cards across slides 21 to 26.            */
+.archetype-cards .c-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 0;
+  background: transparent;
+}
+.archetype-cards .c-card-lime::before {
+  height: 6px;
+  background: var(--nb-lime);
+}
+.archetype-cards .c-card-purple::before {
+  height: 6px;
+  background: var(--nb-purple);
+}
+.archetype-cards .c-card-logo {
+  height: 56px;
+  width: auto;
+  max-width: 70%;
+  object-fit: contain;
+  object-position: left center;
+  margin-bottom: 4px;
+  /* White plate so coloured / dark brand artwork reads against navy. */
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 8px 14px;
+  box-sizing: border-box;
+}
+.archetype-cards .c-card-logos {
+  display: flex;
+  align-items: center;
+  gap: var(--nb-space-2);
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+.archetype-cards .c-card-logos .c-card-logo {
+  height: 44px;
+  max-width: none;
+  margin-bottom: 0;
+  padding: 6px 10px;
 }
 .archetype-cards .c-card-headline {
   font-family: var(--nb-font-display);
@@ -461,6 +591,90 @@ html, body, .reveal-viewport, .reveal {
   line-height: 1.4;
   padding: 6px 0;
 }
+/* Product-motion tag(s). Small, monospace-leaning chips pinned to the    */
+/* bottom of each card. Stacks when two accounts share a card.            */
+.archetype-cards .c-card-tags {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding-top: var(--nb-space-2);
+}
+.archetype-cards .c-card-tag {
+  display: inline-block;
+  font-family: var(--nb-font-body);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--nb-lime);
+  background: rgba(225, 255, 79, 0.08);
+  border: 1px solid rgba(225, 255, 79, 0.35);
+  border-radius: var(--nb-radius-pill);
+  padding: 4px 10px;
+  line-height: 1.3;
+}
+
+/* ----- archetype: points ---------------------------------------- */
+/* Headline plus up to four fragment bullets; mirrors the statement   */
+/* archetype's mark and spacing, with body bullets sized between the  */
+/* deck's 24-28pt body-text floor and the headline weight above.       */
+.archetype-points {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.archetype-points .p-mark {
+  width: 56px;
+  height: 4px;
+  background: var(--nb-lime);
+  border-radius: var(--nb-radius-pill);
+  margin-bottom: var(--nb-space-3);
+}
+.archetype-points .p-eyebrow {
+  font-family: var(--nb-font-body);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--nb-purple-tint);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: var(--nb-space-2);
+}
+.archetype-points .p-headline {
+  font-family: var(--nb-font-display);
+  font-weight: 500;
+  font-size: 72px;
+  color: var(--nb-text-head);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  max-width: 90%;
+  margin-bottom: var(--nb-space-4);
+}
+.archetype-points .p-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-width: 78%;
+}
+.archetype-points .p-item {
+  font-family: var(--nb-font-body);
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.35;
+  color: var(--nb-text-body);
+  padding: 10px 0 10px 28px;
+  position: relative;
+}
+.archetype-points .p-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 22px;
+  width: 12px;
+  height: 2px;
+  background: var(--nb-lime);
+  border-radius: var(--nb-radius-pill);
+}
 
 /* ----- archetype: imagedata -------------------------------------- */
 /* left column of stacked stats, right 2x2 photo grid filling the    */
@@ -479,22 +693,32 @@ html, body, .reveal-viewport, .reveal {
 }
 .archetype-imagedata .id-eyebrow {
   font-family: var(--nb-font-body);
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   color: var(--nb-purple-tint);
   letter-spacing: 0.06em;
   text-transform: uppercase;
+  margin-bottom: var(--nb-space-2);
+}
+.archetype-imagedata .id-headline {
+  font-family: var(--nb-font-display);
+  font-weight: 500;
+  font-size: 44px;
+  color: var(--nb-text-head);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
   margin-bottom: var(--nb-space-3);
+  max-width: 95%;
 }
 .archetype-imagedata .id-stats {
   display: flex;
   flex-direction: column;
-  gap: var(--nb-space-3);
+  gap: var(--nb-space-2);
 }
 .archetype-imagedata .id-stat-value {
   font-family: var(--nb-font-display);
   font-weight: 500;
-  font-size: 128px;
+  font-size: 96px;
   line-height: 0.95;
   letter-spacing: -0.03em;
   color: var(--nb-lime);
@@ -531,7 +755,6 @@ html, body, .reveal-viewport, .reveal {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: saturate(0.6);
 }
 .archetype-imagedata .id-img-placeholder {
   width: 100%;
@@ -551,7 +774,7 @@ html, body, .reveal-viewport, .reveal {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(5,43,66,0.15) 0%, rgba(5,43,66,0.6) 100%);
+    linear-gradient(180deg, rgba(5,43,66,0.0) 0%, rgba(5,43,66,0.15) 100%);
   pointer-events: none;
 }
 
@@ -586,6 +809,7 @@ html, body, .reveal-viewport, .reveal {
 .archetype-logos .lg-grid-2 { grid-template-columns: 1fr 1fr; }
 .archetype-logos .lg-grid-3 { grid-template-columns: repeat(3, 1fr); }
 .archetype-logos .lg-grid-4 { grid-template-columns: repeat(4, 1fr); }
+.archetype-logos .lg-grid-5 { grid-template-columns: repeat(5, 1fr); }
 .archetype-logos .lg-item {
   background: var(--nb-card);
   border-radius: var(--nb-radius-card);
@@ -593,9 +817,37 @@ html, body, .reveal-viewport, .reveal {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   min-height: 280px;
   gap: var(--nb-space-1);
+}
+.archetype-logos .lg-img {
+  display: block;
+  max-width: 80%;
+  max-height: 120px;
+  object-fit: contain;
+  object-position: center center;
+  /* White plate so full-colour brand artwork reads cleanly against */
+  /* the navy card. Padding gives the logo breathing room.          */
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 18px 26px;
+  box-sizing: border-box;
+}
+/* Per-logo size override for marks whose artwork is dense / square */
+/* (e.g. TomTom wordmark), so they read at the same visual weight   */
+/* as wider wordmarks like Booking.com and Adyen.                   */
+.archetype-logos .lg-img-lg {
+  max-width: 92%;
+  max-height: 150px;
+}
+.archetype-logos .lg-white .lg-img {
+  /* Display the brand's full-colour artwork as-is. The card lift provides */
+  /* enough separation from the navy background.                          */
+  opacity: 1;
+}
+.archetype-logos .lg-lime .lg-img {
+  opacity: 1;
 }
 .archetype-logos .lg-mark {
   font-family: var(--nb-font-display);
@@ -674,10 +926,37 @@ html, body, .reveal-viewport, .reveal {
 .archetype-thesis .th-hero-value {
   font-family: var(--nb-font-display);
   font-weight: 500;
-  font-size: 108px;
+  font-size: 84px;
   line-height: 0.95;
   letter-spacing: -0.03em;
   color: var(--nb-lime);
+}
+.archetype-thesis .th-lines {
+  list-style: none;
+  margin: var(--nb-space-2) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.archetype-thesis .th-lines li {
+  position: relative;
+  padding-left: 16px;
+  font-family: var(--nb-font-body);
+  font-size: 18px;
+  color: var(--nb-text-body);
+  line-height: 1.4;
+}
+.archetype-thesis .th-lines li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--nb-purple-tint);
+  opacity: 0.65;
 }
 .archetype-thesis .th-hero-unit {
   font-family: var(--nb-font-body);
@@ -736,7 +1015,7 @@ html, body, .reveal-viewport, .reveal {
 .archetype-diagram .dg-motions {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--nb-space-3);
+  gap: var(--nb-space-2);
 }
 .archetype-diagram .dg-motion {
   background: var(--nb-card);
@@ -747,6 +1026,7 @@ html, body, .reveal-viewport, .reveal {
   gap: var(--nb-space-2);
   position: relative;
   border-top: 4px solid transparent;
+  min-height: 380px;
 }
 .archetype-diagram .dg-motion-lime { border-top-color: var(--nb-lime); }
 .archetype-diagram .dg-motion-purple { border-top-color: var(--nb-purple); }
@@ -779,7 +1059,7 @@ html, body, .reveal-viewport, .reveal {
   padding: 6px 0;
 }
 .archetype-diagram .dg-band {
-  margin-top: var(--nb-space-3);
+  margin-top: auto;
   background: linear-gradient(90deg, rgba(109,104,255,0.18), rgba(225,255,79,0.18));
   border-radius: var(--nb-radius-card);
   padding: var(--nb-space-2) var(--nb-space-3);
@@ -906,3 +1186,50 @@ html, body, .reveal-viewport, .reveal {
 
 /* ----- print and PDF export tweaks ------------------------------- */
 .reveal.print-pdf .slides section { box-shadow: none; }
+
+/* PDF export site-parity. Reveal 6 wraps each slide in a .pdf-page      */
+/* during print and inline-styles each section with width = slide width  */
+/* and top = vertical centering offset, but never sets section height.   */
+/* That breaks any archetype whose layout relies on .archetype's          */
+/* height: 100% chain: photos collapse and long statement bodies wrap     */
+/* differently, getting clipped mid-paragraph (slides 6, 7, 17 were        */
+/* visibly broken in the PDF while looking correct on the hosted site).  */
+/*                                                                       */
+/* Override every section in print mode so it fills the pdf-page exactly */
+/* like the on-site slide fills the viewport, restoring height: 100%      */
+/* parity. Reveal adds the print-pdf class to <html>, not body or         */
+/* .reveal, so target html.print-pdf.                                    */
+html.print-pdf .pdf-page > section[data-archetype],
+html.print-pdf .slides > section[data-archetype] {
+  height: 1080px !important;
+}
+html.print-pdf section[data-archetype="image"] {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+html.print-pdf section[data-archetype="image"] > .archetype-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0 !important;
+}
+html.print-pdf section[data-archetype="image"] .i-frame,
+html.print-pdf section[data-archetype="image"] .i-frame-fullbleed {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+html.print-pdf section[data-archetype="image"] .i-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}

@@ -1,22 +1,23 @@
 /*
  * content.js
  *
- * This file is the single source of slide copy for the deck.
- * Every headline, bullet, number, caption, and speaker note lives here.
- * Layout and styling stay in /css/theme.css and /js/archetypes.js.
- *
- * To edit the deck, change values in this file only. The slide objects
- * are consumed by /js/archetypes.js and rendered into reveal.js sections.
+ * Single source of slide copy for the deck. Headlines, fragments,
+ * numbers, and speaker notes live here. Layout and styling are in
+ * /css/theme.css and /js/archetypes.js.
  *
  * Each slide has:
  *   id        unique slug, used as the DOM id of the section
  *   archetype one of: title, statement, image, data, cards, imagedata,
  *             thesis, diagram, timeline, logos
- *   data      the archetype-specific payload (see archetypes.js)
- *   notes     optional speaker notes string, surfaced via reveal speaker view
+ *   orient    optional small corner-of-slide label, e.g. '02 / china'
+ *             (omit on title, divider, and full-bleed image slides)
+ *   data      archetype-specific payload (see archetypes.js)
+ *   notes     speaker notes, surfaced via reveal speaker view (press 's').
+ *             Use '\n' between bullets; the renderer converts them to
+ *             <br> so they read as bullets in the presenter window.
  *
- * Section 3 slides are placeholders. Replace the bracketed copy when
- * the deal case study is finalized.
+ * Deal-section slides (11 to 16) are placeholders and arrive in a later
+ * prompt; their bracketed copy stays until then.
  */
 
 window.DECK_CONTENT = {
@@ -29,10 +30,10 @@ window.DECK_CONTENT = {
 
   slides: [
     /* ================================================================ */
-    /* Opening                                                          */
+    /* 1. Title                                                         */
     /* ================================================================ */
     {
-      id: 'slide-0-title',
+      id: 'slide-01-title',
       archetype: 'title',
       data: {
         eyebrow: 'Nebius Benelux interview',
@@ -41,498 +42,933 @@ window.DECK_CONTENT = {
         meta: '22 May 2026',
         showLogo: true
       },
-      notes: 'Opening slide, ten seconds. Let the panel see the name and role. Move on.'
+      notes:
+        '• Ten seconds. Let the panel read the name and role.\n' +
+        '• No talking over the open. Then move to slide 2.'
     },
 
     /* ================================================================ */
-    /* Section 1: Intro                                                 */
+    /* 2. The Benelux market, by name (logos)                           */
     /* ================================================================ */
     {
-      id: 'slide-1-1-ready-benelux',
+      id: 'slide-02-benelux-by-name',
       archetype: 'logos',
+      orient: '01 / benelux',
       data: {
-        eyebrow: 'Section 1, ready in the Benelux',
-        headline: 'I know who to call at each of these.',
+        headline: 'The Benelux market, by name',
         logos: [
-          { name: 'Booking.com', accent: 'white' },
-          { name: 'Adyen', accent: 'white' },
-          { name: 'TomTom', accent: 'white' },
-          { name: 'Weaviate', accent: 'lime' }
+          { name: 'Booking.com', src: 'images/logos/booking.svg',  sub: 'Booking.com', accent: 'white' },
+          { name: 'Adyen',       src: 'images/logos/adyen.svg',    sub: 'Adyen',       accent: 'white' },
+          { name: 'TomTom',      src: 'images/logos/tomtom.svg',   sub: 'TomTom',      accent: 'white', size: 'lg' },
+          { name: 'Weaviate',    src: 'images/logos/weaviate.svg', sub: 'Weaviate',    accent: 'lime'  }
         ]
       },
-      notes: 'Booking.com runs 480 ML models and 400 billion predictions a day. Adyen is pre-training a 1.4B parameter foundation model on its transaction corpus. TomTom runs continuous training and inference across their entire Orbis Maps platform. I know which person at each of those companies I would call first, and which of them I already have a path to. That is why I am in this room.'
+      notes:
+        '• Booking runs 480 ML models and 400B predictions a day.\n' +
+        '• Adyen is building a 1.4B-parameter foundation model on its transaction corpus.\n' +
+        '• TomTom runs continuous training across Orbis Maps.\n' +
+        '• Weaviate is the Index portfolio overlap: vector-database leader, AI-native customer, warm path through Index partner level.\n' +
+        '• I know the named person at each. For several I already have a warm path.\n' +
+        '• That is why I am in this room.'
     },
 
+    /* ================================================================ */
+    /* 3. Where I have operated (cards)                                 */
+    /* ================================================================ */
     {
-      id: 'slide-1-2-where-operated',
+      id: 'slide-03-where-operated',
       archetype: 'cards',
+      orient: '01 / benelux',
       data: {
-        eyebrow: 'Section 1, where I have operated',
-        headline: 'Three companies, one through-line.',
+        headline: 'Where I have operated',
+        equalHeight: true,
         cards: [
           {
             headline: 'Palo Alto Networks',
+            logoSrc: 'images/logos/paloalto.svg',
+            accent: 'lime',
             lines: [
-              'Enterprise security, complex multi-stakeholder cycles.',
-              'Closed deals across DACH and Benelux mid-market and enterprise.'
+              'Enterprise security, complex multi-stakeholder cycles',
+              'Century Club, DACH and Benelux territories'
             ]
           },
           {
             headline: 'Google Cloud',
+            logoSrc: 'images/logos/googlecloud.svg',
+            accent: 'purple',
             lines: [
-              'Built the EMEA VC program from zero.',
-              'Drove startup signups and seeded the warm-intro engine I still use.'
+              'AI-infrastructure deals with Benelux digital natives',
+              'New-logo hunting, plus the EMEA VC program I built.'
             ]
           },
           {
             headline: 'Nexos.ai',
+            logoSrc: 'images/logos/nexos.png',
+            accent: 'lime',
             lines: [
-              'Founding GTM lead, enterprise AI orchestration.',
-              'Selling AI infrastructure into DACH and Benelux mid-market and enterprise today.'
+              'Founding GTM lead, selling AI infrastructure today',
+              'Hands-on with the buyer Nebius is also chasing'
             ]
           }
         ]
       },
-      notes: 'Brief headline accomplishment for each. The point is the through-line, not the resume. Full-stack across security, cloud, and AI infrastructure, with both enterprise and zero-to-one motions on the record.'
+      notes:
+        '• PAN: Century Club years, enterprise security cycles across DACH and Benelux.\n' +
+        '• Google Cloud: quota-carrying AE on digital natives and AI-natives; VC program was a side build that became EMEA-wide.\n' +
+        '• 8 published Google Cloud case studies in back pocket, plus several more from startup-program companies I sourced into Google Cloud, several with seven-figure ARR.\n' +
+        '• Mention "I can walk you through the case studies after this conversation" if the panel asks for proof.\n' +
+        '• One line on Aivira, the voice AI company I co-founded; that is where I learned what building from zero actually costs.\n' +
+        '• Aivira stays in notes only; never name it on the slide.'
     },
 
+    /* ================================================================ */
+    /* 4. The VC community I built (imagedata, 4 stats + 4 photos)      */
+    /* ================================================================ */
     {
-      id: 'slide-1-3-vc-numbers',
+      id: 'slide-04-vc-community',
       archetype: 'imagedata',
+      orient: 'Google Cloud',
       data: {
-        eyebrow: 'Section 1, the VC community',
+        headline: 'The VC community I built',
         stats: [
-          { value: '25+', unit: 'VC firms', label: 'in active partnership' },
-          { value: '$3M+', unit: 'pipeline', label: 'sourced through VC relationships' },
-          { value: '1,000+', unit: 'people', label: 'community at peak' }
+          { value: '25+', unit: 'VC firms', label: 'active partnerships' },
+          { value: '€3M+', unit: 'pipeline', label: 'sourced through VC relationships' },
+          { value: '1,000+', unit: 'senior leaders', label: 'across 20+ events' },
+          { value: '3', unit: 'EMEA regions', label: 'adopted the playbook' }
         ],
         images: [
-          { src: 'images/vc-event-1.jpg', placeholder: 'VC event photo 1' },
-          { src: 'images/vc-event-2.jpg', placeholder: 'VC event photo 2' },
-          { src: 'images/vc-event-3.jpg', placeholder: 'VC event photo 3' },
-          { src: 'images/vc-event-4.jpg', placeholder: 'VC event photo 4' }
+          { src: 'images/photos/vc-event-1.jpg', placeholder: 'VC event photo 1' },
+          { src: 'images/photos/vc-event-2.jpg', placeholder: 'VC event photo 2' },
+          { src: 'images/photos/vc-event-3.jpg', placeholder: 'VC event photo 3' },
+          { src: 'images/photos/vc-event-4.jpg', placeholder: 'VC event photo 4' }
         ]
       },
-      notes: 'One of the things I am most proud of from my time at Google is the VC program I built. This community building is part of an experience I want to discuss next, which is my passion project around China. Hold this slide while delivering the closing line.'
+      notes:
+        '• What I am proudest of from my Google Cloud time.\n' +
+        '• Started as one program in Benelux, taken up by three EMEA regions.\n' +
+        '• Bridge into the China section: community-building is a skill I started developing fifteen years ago in China.\n' +
+        '• Hold the slide while delivering the bridge line, then advance.'
     },
 
     /* ================================================================ */
-    /* Section divider: China                                           */
+    /* 5. Section break: China                                          */
     /* ================================================================ */
     {
-      id: 'divider-china',
+      id: 'slide-05-divider-china',
       archetype: 'title',
       data: {
-        eyebrow: 'Section 2',
-        title: 'China.',
-        subtitle: 'A passion project, fifteen years in.',
+        title: 'China',
+        subtitle: 'A passion project, fifteen years in',
         showLogo: false
       },
-      notes: 'Five second pause on the divider. Let the panel reset.'
+      notes:
+        '• Five-second pause on the divider.\n' +
+        '• Let the panel reset before the China narrative.'
     },
 
     /* ================================================================ */
-    /* Section 2: China passion project                                 */
+    /* 6. Hangzhou, full-bleed image                                    */
     /* ================================================================ */
     {
-      id: 'slide-2-1-hook-hangzhou',
+      id: 'slide-06-hangzhou',
       archetype: 'image',
       data: {
         src: 'images/hangzhou-skyline.jpg',
-        placeholder: 'Hangzhou skyline with small DeepSeek logo overlay',
-        caption: 'Hangzhou. The weekend DeepSeek broke through.'
+        fullBleed: true,
+        overlay: {
+          logoSrc: 'images/logos/deepseek.svg',
+          label: 'DeepSeek'
+        },
+        placeholder: 'Full-bleed Hangzhou photo with the DeepSeek mark'
       },
-      notes: 'DeepSeek launched during Chinese New Year while I was physically in China. The West woke up to it on Monday, after I had been watching it unfold over the weekend. I followed it through Western media and then spoke with a Shenzhen friend who works at Tencent. Stay on this slide for the full origin story, ninety seconds, walk back to age 19, rural China, the German government volunteer program, the promotion, the seminars, and the move to Beijing.'
+      notes:
+        '• DeepSeek dropped during Chinese New Year while I was in China.\n' +
+        '• Followed it through Western media over the weekend; Mandarin reading is not strong enough for the Chinese-language coverage. West woke up on Monday.\n' +
+        '• Spoke with a friend in Shenzhen at Tencent to triangulate.\n' +
+        '• Use this as the hook for the origin story: rural China at 19, German volunteer programme.'
     },
 
+    /* ================================================================ */
+    /* 7. Teaching, full-bleed image                                    */
+    /* ================================================================ */
     {
-      id: 'slide-2-2-teaching',
+      id: 'slide-07-teaching',
       archetype: 'image',
       data: {
-        src: 'images/teaching-rural-china.jpg',
-        placeholder: 'Teaching photo with the children, rural classroom',
-        caption: 'Teaching at the volunteer post, rural China.'
+        src: 'images/photos/teaching-rural-china.png',
+        fullBleed: true,
+        placeholder: 'Full-bleed teaching photo, rural Chinese classroom'
       },
-      notes: 'About sixty seconds. This earns the room emotionally, so use it deliberately. This is what I was doing, this is what I learned, this is when I learned I could be dropped into an unfamiliar environment and not just survive but rise. Name the village or province if it adds texture. Do not dwell longer than a minute.'
+      notes:
+        '• Sixty seconds, deliberately.\n' +
+        '• Volunteer post on the German government programme, then the promotion.\n' +
+        '• Seminars for other volunteers.\n' +
+        '• Name a village or province if it adds texture; do not dwell beyond a minute.\n' +
+        '• Earns the room emotionally; use sparingly.'
     },
 
+    /* ================================================================ */
+    /* 8. How I keep studying China (source logos)                      */
+    /* ================================================================ */
     {
-      id: 'slide-2-3-how-i-stay-current',
-      archetype: 'cards',
+      id: 'slide-08-how-i-keep-studying',
+      archetype: 'logos',
+      orient: '02 / china',
       data: {
-        eyebrow: 'Section 2, how I stay current',
-        headline: 'Infrastructure for a future venture, not hobby content.',
-        cards: [
-          {
-            headline: 'Voices',
-            lines: ['Kaiser Kuo on the Sinica podcast.', 'ChinaTalk for policy and tech.']
-          },
-          {
-            headline: 'Print',
-            lines: ['The Economist Drum Tower.', 'Long-form China analysis weekly.']
-          },
-          {
-            headline: 'Ground level',
-            lines: ['WeChat for live signal.', 'Air China for the regular trips back.']
-          }
+        headline: 'How I keep studying China',
+        logos: [
+          { name: 'Sinica',        src: 'images/logos/sinica.png',    sub: 'Podcast, Kaiser Kuo',  accent: 'white' },
+          { name: 'ChinaTalk',     src: 'images/logos/chinatalk.png', sub: 'Newsletter and podcast', accent: 'white' },
+          { name: 'The Economist', src: 'images/logos/economist.svg', sub: 'Drum Tower podcast',   accent: 'white' },
+          { name: 'WeChat',        src: 'images/logos/wechat.svg',    sub: 'WeChat',               accent: 'white' },
+          { name: 'Air China',     src: 'images/logos/airchina.svg',  sub: 'Going back regularly', accent: 'white' }
         ]
       },
-      notes: 'About sixty seconds. Frame as infrastructure for a future business venture, not as hobby content. I have not been a tourist for a long time. I read these every week, I am fluent enough in conversational Chinese to get by, and I go back regularly. I have long-term plans to build something in or with China, and I am laying the groundwork now.'
+      notes:
+        '• Framed as groundwork for a long-term venture, not hobby content.\n' +
+        '• Read these every week; conversational Chinese, and I go back regularly.\n' +
+        '• Air China on the slide is the visual cue for "I go back regularly," not a metaphor.\n' +
+        '• Long-term plans to build something in or with China; laying the groundwork now.'
     },
 
+    /* ================================================================ */
+    /* 9. The AI race is an energy race (thesis)                        */
+    /* ================================================================ */
     {
-      id: 'slide-2-4-energy-thesis',
+      id: 'slide-09-energy-race',
       archetype: 'thesis',
+      orient: '02 / china',
       data: {
-        eyebrow: 'Section 2, the thesis',
-        headline: 'The AI race is an energy race. China quietly turned its energy surplus into an export.',
+        headline: 'The AI race is an energy race',
         columns: [
           {
             label: 'A. The electron gap',
-            support: 'Most people think the AI race is about chips. The emerging constraint is electricity.',
-            hero: { value: '543 GW', unit: '', label: 'added by China in 2024 alone, roughly ten times what the US added the same year.' },
-            context: 'US electricity demand was flat for two decades and now cannot permit fast enough.',
-            secondary: { value: '~400 GW', label: 'projected spare Chinese capacity by 2030, about three times global data-center demand (Goldman Sachs).' }
+            hero: {
+              value: '429 GW',
+              unit: '',
+              label: 'added by China to its grid in 2024, roughly seven times what the US added the same year.'
+            },
+            lines: [
+              'The real constraint is electricity, not chips.',
+              '~400 GW projected spare Chinese capacity by 2030, roughly 3x global datacenter demand (Goldman).',
+              'US demand flat for two decades, now cannot permit fast enough.'
+            ]
           },
           {
             label: 'B. Tokens as a power derivative',
-            support: 'Power is the single largest line in inference operating cost, so Chinese analysts now describe AI tokens as a power derivative.',
-            hero: { value: 'Feb 2026', unit: '', label: 'Chinese models passed US models in weekly token usage on OpenRouter for the first time.' },
-            context: 'Electricity has always been hard to export. Tokens let China keep the electricity at home and export the economic value through inference.'
+            hero: {
+              value: 'Week of Feb 9, 2026',
+              unit: '',
+              label: 'Chinese models crossed US models in weekly token usage on OpenRouter, 4.1T vs 2.9T.'
+            },
+            lines: [
+              'Power is 60-70% of model operating cost (Changjiang Securities).',
+              'Electricity is hard to export. Tokens are not.',
+              'The transferable signal: I notice the constraint others miss.'
+            ]
           }
         ]
       },
-      notes: 'Seventy-five to ninety seconds. Two sentences of position, supporting evidence beneath, delivered with conviction and ready to defend in Q and A. Do not bend toward Nebius. The transferable signal stays implicit: I notice the constraint others are not looking at. Fact-check status (17 May 2026): 543 GW China 2024 build-out confirmed (NEA, multiple sources). The 10x US comparison checks out (US added ~56 GW in 2024). 400 GW spare by 2030 confirmed via Goldman Sachs. Feb 2026 OpenRouter crossover confirmed (week of Feb 9-15, 4.12T vs 2.94T tokens).'
+      notes:
+        '• 429 GW is the IEA/NEA consensus number for net new grid-connected capacity in CY2024 (21% YoY): ~277 GW solar, ~80 GW wind, ~30 GW coal, rest hydro/nuclear/gas. US added ~62.8 GW the same year (EIA), so 429/62.8 = ~6.8x, which rounds honestly to "roughly seven."\n' +
+        '• If anyone challenges with the higher 543 GW figure: that is the "installed nameplate" number including projects built but not yet grid-connected. 429 is the IEA-aligned, defensible one.\n' +
+        '• ~400 GW spare Chinese capacity by 2030: Goldman Sachs, Nov 2025, vs ~120 GW global data-center demand, hence 3x. They also project China spare at 25% of peak summer demand by 2030, US effective spare below 15% in most regions.\n' +
+        '• US demand was flat for two decades; cannot permit fast enough now (interconnect queues, transformer lead times).\n' +
+        '• Power is 60-70% of model operating cost: attribute to Changjiang Securities. Epoch AI bottom-up cost model corroborates ~67% of OpEx. Be careful: this is OPERATING cost, not TCO. Of TCO, power is only ~7% because servers dominate CapEx at 60%. If challenged on that, agree, and reframe: at steady-state inference, power dominates.\n' +
+        '• OpenRouter crossover: week of Feb 9-15, 2026, Chinese models 4.12T tokens vs US models 2.94T. Following week, 5.16T vs 2.7T. By late Feb, Chinese models ~61% of OpenRouter top-10 token consumption. Top Chinese names: MiniMax M2.5, Moonshot Kimi K2.5, Zhipu GLM-5, DeepSeek V3.2.\n' +
+        '• Electricity is hard to export. Tokens are not. China keeps the electrons, exports the value as inference.\n' +
+        '• Position with conviction. Ready for Q and A on Goldman, NEA, OpenRouter, Changjiang figures.'
     },
 
+    /* ================================================================ */
+    /* 10. Navigating uncharted territory with no map (statement)       */
+    /* ================================================================ */
     {
-      id: 'slide-2-5-landing',
+      id: 'slide-10-uncharted-territory',
       archetype: 'statement',
+      orient: '02 / china',
       data: {
-        eyebrow: 'China, landing',
-        headline: 'Same instinct, applied to Benelux.',
-        sub: 'Fifteen years of paying attention. Still going back.',
+        headline: 'Navigating uncharted territory with no map',
+        sub: 'An unfamiliar market, no playbook, thriving where others dropped out. The blueprint for every hard market since.',
         accent: true
       },
-      notes: 'Landing line for the China section. The instinct that started in China, going where the work was, learning a market on its own terms, executing on hard things in unfamiliar territory, is the same one I would bring to Benelux. Speaking of which, let me show you what that looks like in a deal I worked on last year.'
+      notes:
+        '• Grit evidence:\n' +
+        '   • Created an advanced class for the strongest students; spoken English and German improved faster under me.\n' +
+        '   • Promoted in a programme where volunteers regularly washed out.\n' +
+        '   • Sent back to China by the German ministry to train other volunteers, on government money, without the formal qualification the role normally required.\n' +
+        '• Same instinct applied to every hard market since.\n' +
+        '• Spoken bridge from here into the deal section.'
     },
 
     /* ================================================================ */
-    /* Section divider: The Deal                                        */
+    /* 11-16. Deal case study (PLACEHOLDERS, content arrives later)     */
     /* ================================================================ */
     {
-      id: 'divider-deal',
+      id: 'slide-11-divider-deal',
       archetype: 'title',
       data: {
-        eyebrow: 'Section 3',
-        title: 'The deal.',
-        subtitle: 'A case study from the last twelve months.',
+        title: 'The deal',
+        subtitle: 'A case study, the kind of cycle relevant for Nebius',
         showLogo: false
       },
-      notes: 'Five seconds.'
+      notes:
+        '• Five-second pause.\n' +
+        '• Frame the subtitle as the bridge: this is not the most recent deal, it is the most relevant one for what we are talking about.\n' +
+        '• [PLACEHOLDER section; deal copy lands in a later prompt after the meeting with old colleague.]'
     },
 
-    /* ================================================================ */
-    /* Section 3: Deal case study (PLACEHOLDERS)                        */
-    /* ================================================================ */
     {
-      id: 'slide-3-1-hook',
+      id: 'slide-12-deal-found-account',
       archetype: 'statement',
+      orient: '03 / deal',
       data: {
-        eyebrow: 'Section 3, the hook',
-        headline: '[Deal hook: drop the panel into a specific high-tension moment.]',
-        sub: '[One supporting line of context, who and what.]',
+        headline: 'I found a major account no one was looking at',
+        sub: 'CM.com, a listed payments company in Breda with no Google Cloud footprint. Not on any target list. I opened it net-new while holding the territory\u2019s largest fintech accounts.',
         accent: true
       },
-      notes: '[90 seconds. Hook and account setup. Open with the moment, not the company name. Replace bracketed copy in content.js when the case study is finalized.]'
+      notes:
+        '• This deal started because I went looking. CM.com was not on any account list I was handed. It is a publicly listed Dutch payments and conversational-commerce company in Breda, and at the time it had effectively no Google Cloud footprint.\n' +
+        '• I identified it as a serious prospect and opened it from zero, net-new.\n' +
+        '• The context: I was holding the largest fintech accounts in the Benelux territory, a senior fill-in role I was entrusted with before I had proven myself in it. I treated that as a mandate to hunt, not just to maintain.\n' +
+        '• Honest framing up front: I originated this and built it to a first production workload, then handed it over in a territory change before the larger commitment resolved. Both halves are true and I will be straight about both.'
     },
 
     {
-      id: 'slide-3-2-complication',
+      id: 'slide-13-deal-engineers-buried',
       archetype: 'cards',
+      orient: '03 / deal',
       data: {
-        eyebrow: 'Section 3, the complication',
-        headline: '[Two forces working against this deal.]',
+        headline: 'Strong engineers, buried in their own infrastructure',
         cards: [
           {
-            headline: '[Competitive situation]',
+            headline: 'On paper',
+            accent: 'lime',
             lines: [
-              '[Incumbent vendor and their lock-in.]',
-              '[Why the easy answer was to do nothing.]'
+              'Already running Kubernetes on-prem',
+              'Technically sophisticated, cloud-native patterns'
             ]
           },
           {
-            headline: '[Org complexity]',
+            headline: 'In reality',
+            accent: 'purple',
             lines: [
-              '[Stakeholder map: champion, blocker, economic buyer.]',
-              '[What changed in the org during the cycle.]'
+              'Whole teams consumed keeping infrastructure alive',
+              'Night shifts, weekend on-call, constant firefighting'
             ]
           }
         ]
       },
-      notes: '[100 seconds. Build the complication so the strategy slide lands. Replace bracketed copy in content.js.]'
+      notes:
+        '• The problem here was not a lack of sophistication. These were strong, technically sophisticated engineers, already running Kubernetes themselves on their own infrastructure.\n' +
+        '• The problem was operational burden. A large part of the engineering organization spent its time keeping infrastructure alive instead of building product.\n' +
+        '• Night shifts, weekend on-call, constant firefighting.\n' +
+        '• So the case I built was not "move to the cloud." They were already cloud-native in their patterns. The case was managed infrastructure: let Google run the Kubernetes control plane and the databases, and give those engineers back to product.\n' +
+        '• As Frank, who later took the account, put it: they spent their energy on how to build it and keep it running, instead of on value-add. That was the wedge.'
     },
 
     {
-      id: 'slide-3-3-strategy',
-      archetype: 'cards',
+      id: 'slide-14-deal-cold-outreach',
+      archetype: 'timeline',
+      orient: '03 / deal',
       data: {
-        eyebrow: 'Section 3, the strategy',
-        headline: '[How the path to signature was structured.]',
-        cards: [
+        headline: 'Cold outreach to a live landing zone',
+        items: [
           {
-            headline: '[Move 1]',
-            lines: ['[What I did.]', '[Why it mattered at that point in the cycle.]']
+            date: 'Open',
+            text: 'Outbound with my BDR, opened at CISO and CTO level.',
+            accent: 'lime'
           },
           {
-            headline: '[Move 2]',
-            lines: ['[What I did.]', '[The signal it created internally at the account.]']
+            date: 'Win',
+            text: 'First meeting on Kubernetes, brought in a customer engineer.',
+            accent: 'purple'
           },
           {
-            headline: '[Move 3]',
-            lines: ['[What I did.]', '[How it tied the technical and commercial threads together.]']
+            date: 'Fund',
+            text: 'Secured 10k in credits against internal pushback, stood up the landing zone.',
+            accent: 'lime'
+          },
+          {
+            date: 'Build',
+            text: 'Built the champion from zero, weekly and hands-on.',
+            accent: 'purple'
           }
-        ]
-      },
-      notes: '[120 seconds. Three deliberate moves, not a story of luck. Replace bracketed copy in content.js.]'
-    },
-
-    {
-      id: 'slide-3-4-hard-moment',
-      archetype: 'statement',
-      data: {
-        eyebrow: 'Section 3, the hard moment',
-        headline: '[The specific hard moment, in one sentence.]',
-        sub: '[The move I made, and what it cost me to make it.]',
-        accent: true
-      },
-      notes: '[100 seconds. One moment, one move. This is the slide that shows judgment under pressure. Replace bracketed copy in content.js.]'
-    },
-
-    {
-      id: 'slide-3-5-outcome',
-      archetype: 'data',
-      data: {
-        eyebrow: 'Section 3, the outcome',
-        headline: '[What was signed.]',
-        callouts: [
-          { value: '[$X.XM]', unit: 'deal value', label: '[ACV or TCV, name it]' },
-          { value: '[XX days]', unit: 'cycle length', label: '[from first meeting to signed]' },
-          { value: '[XX]', unit: 'modules', label: '[scope of what was signed]' },
-          { value: '[X]', unit: 'stakeholders', label: '[economic, technical, security]' }
         ],
-        bars: {
-          title: '[Optional: deal-progression visual]',
-          unit: '',
-          series: [
-            { label: 'Stage 1', value: 25, color: 'purple' },
-            { label: 'Stage 2', value: 50, color: 'purple' },
-            { label: 'Stage 3', value: 75, color: 'purple' },
-            { label: 'Signed', value: 100, color: 'lime' }
-          ]
-        }
+        footer: 'Net-new account from zero to a live Google Cloud landing zone.'
       },
-      notes: '[90 seconds. Outcome and short transition into the territory section. Replace bracketed copy in content.js.]'
+      notes:
+        '• I ran outbound into the account with my BDR, Nicky, and we did not start low. We opened at CISO and CTO level. Starting that senior shaped everything that followed; it meant the cloud conversation had altitude from day one.\n' +
+        '• I won the first technical meeting on a shared interest in Kubernetes, and brought in our customer engineer, Qian Sun, as the dedicated technical resource.\n' +
+        '• I secured ten thousand in Google Cloud credits to fund the proof of concept, and had to fight for those internally against skepticism about an unproven greenfield account.\n' +
+        '• I created CM.com\u2019s first Google Cloud account and helped stand up the landing zone: billing and governance structure, IAM, networking back to their on-prem estate.\n' +
+        '• I built the champion. Bas Peters, who ran payments engineering, went from no cloud experience to running a production workload, through weekly hands-on sessions with me.\n' +
+        '• I also connected them to Xebia, the Google value-added partner, for delivery capacity.\n' +
+        '• The orchestration was mine. The deep technical build was Qian\u2019s. I am precise about that line because it matters.'
     },
 
-    /* ================================================================ */
-    /* Section divider: Benelux Territory                               */
-    /* ================================================================ */
     {
-      id: 'divider-territory',
-      archetype: 'title',
+      id: 'slide-15-deal-coalition',
+      archetype: 'cards',
+      orient: '03 / deal',
       data: {
-        eyebrow: 'Section 4',
-        title: 'Benelux territory.',
-        subtitle: 'The plan, the accounts, the first ninety days.',
-        showLogo: false
+        headline: 'A coalition, not a single point of contact',
+        cards: [
+          {
+            headline: 'The CISO',
+            accent: 'lime',
+            lines: [
+              'Technical door-opener',
+              'Kubernetes interest convened the first meetings'
+            ]
+          },
+          {
+            headline: 'The champion',
+            accent: 'lime',
+            lines: [
+              'Software Development Manager, Payments',
+              'Carried the workload into production'
+            ]
+          },
+          {
+            headline: 'The customer engineer and Xebia',
+            accent: 'purple',
+            lines: [
+              'Delivery muscle',
+              'Deep technical build and partner capacity'
+            ]
+          },
+          {
+            headline: 'Up to the CEO',
+            accent: 'purple',
+            lines: [
+              'Personalized microsites for every stakeholder',
+              'CEO engaged with the content directly'
+            ]
+          }
+        ]
       },
-      notes: 'Five seconds. This is the section the panel is weighting most.'
+      notes:
+        '• This was never a single-threaded deal.\n' +
+        '• Sandor was the first technical contact, the one whose interest in Kubernetes opened the door and convened the early meetings.\n' +
+        '• Bas Peters became the champion, the person who carried the workload into production.\n' +
+        '• Qian Sun and the Xebia partner were the delivery muscle that made the build real.\n' +
+        '• To build consensus across the wider organization, I ran an account-based marketing campaign: personalized microsites with tailored references for individual stakeholders, including the CEO, who engaged with the content directly.\n' +
+        '• The point was to make the cloud conversation something the whole company was having, not just one engineering team.\n' +
+        '• Multi-threading like that is the difference between a deal that depends on one person and a deal that has its own momentum.'
     },
 
-    /* ================================================================ */
-    /* Section 4: Success plan and territory                            */
-    /* ================================================================ */
     {
-      id: 'slide-4-1-thesis',
+      id: 'slide-16-deal-zero-to-production',
+      archetype: 'thesis',
+      orient: '03 / deal',
+      data: {
+        headline: 'Zero to production, then organic growth',
+        columns: [
+          {
+            label: 'Peak run rate',
+            hero: {
+              value: '~\u20AC1M / year',
+              unit: '',
+              label: 'after handover, as teams replicated the model'
+            }
+          },
+          {
+            label: 'Production payment traffic',
+            hero: {
+              value: '\u20AC90k / month',
+              unit: '',
+              label: 'on GKE and Cloud SQL, Dutch Grand Prix workloads live within months'
+            }
+          }
+        ]
+      },
+      notes:
+        '• The first workload into production was a bounded payment workflow, the credit card acceptance flow, on Google Kubernetes Engine with a managed Cloud SQL database, integrated back into their existing on-prem payment systems.\n' +
+        '• It was deliberately bounded: meaningful and customer-facing, but contained enough to survive internally and prove the model.\n' +
+        '• Within months, real production payment traffic tied to the Dutch Grand Prix at Zandvoort was running on it.\n' +
+        '• After I handed the account over, it grew organically, and that is the point I want to make. The foundation was sound enough that it kept compounding without me. Team after team saw it worked, saw the on-call burden disappear, and replicated the model.\n' +
+        '• The run rate eventually peaked around ninety thousand euros a month, roughly one million annualized.\n' +
+        '• I originated it and built the foundation. The growth to that peak happened after me, and I would not claim otherwise.'
+    },
+
+    {
+      id: 'slide-17-deal-economic-buyers',
       archetype: 'statement',
+      orient: '03 / deal',
       data: {
-        eyebrow: 'Section 4, the thesis',
-        headline: 'Land digital natives fast. Use them to open enterprise.',
-        sub: 'Reference accounts on technical merit, then a full-stack, low-TCO sovereignty story into financial services, healthcare and media. VC relationships accelerate the first step. AI-engineering community underpins both.',
+        headline: 'What this deal taught me about economic buyers',
+        sub: 'Beyond the live workloads, a larger \u20AC5M strategic migration was on the table, discussed at CEO and CFO level. The CFO saw the economics. The owner-CEO never let go. A champion cannot outrank an emotional economic buyer.',
         accent: true
       },
-      notes: 'Sixty seconds. The whole territory plan in two lines. Everything that follows is the proof.'
+      notes:
+        '• I want to end on the most useful part. There was a path to something much bigger: a strategic migration and multi-year commitment in the range of five million, discussed at CEO and CFO level.\n' +
+        '• The CFO understood the economics. The business case was sound and he saw it.\n' +
+        '• It did not happen, and the reason was not price, product, or a competitor. The owner and CEO had a genuine emotional attachment to running his own infrastructure. He had glass panels installed in his office floor so he could watch his own servers.\n' +
+        '• The real competitor in this deal was never AWS. It was the status quo, and the status quo had a sponsor at the very top.\n' +
+        '• The lesson has changed how I sell. On every enterprise deal since, I map the economic buyer\u2019s personal stake early, not just their business case.\n' +
+        '• Bas was an excellent champion. He was simply never going to outrank the founder.'
     },
 
+    /* ================================================================ */
+    /* 17. Section break: Benelux territory                             */
+    /* ================================================================ */
     {
-      id: 'slide-4-2-two-motions',
-      archetype: 'diagram',
+      id: 'slide-18-divider-territory',
+      archetype: 'title',
       data: {
-        eyebrow: 'Section 4, the motion',
-        headline: 'Two motions in parallel, one ecosystem feeding both.',
+        title: 'Benelux territory',
+        subtitle: 'The market, the accounts, where I would start',
+        showLogo: false
+      },
+      notes:
+        '• Five seconds.\n' +
+        '• This is the section the panel weights most.'
+    },
+
+    /* ================================================================ */
+    /* 18. The thesis (statement)                                       */
+    /* ================================================================ */
+    {
+      id: 'slide-19-thesis',
+      archetype: 'statement',
+      orient: '04 / territory',
+      data: {
+        headline: 'Land the digital natives first, let them open enterprise',
+        sub: 'Technical merit closes Motion 1. Sovereignty and compliance carry Motion 2. Every Motion 1 win becomes a Motion 2 reference.',
+        footnote: 'The wedge: a full-stack AI cloud, not bare-metal, not a general-purpose hyperscaler.',
+        accent: true
+      },
+      notes:
+        '• Q and A preparation, not slide content:\n' +
+        '   • Why a full-stack AI cloud beats a hyperscaler:\n' +
+        '     • Hyperscalers sell general-purpose cloud with the wrong defaults and bundled overhead.\n' +
+        '     • Bare-metal GPU rental gives raw compute but no platform and no path to production.\n' +
+        '     • Full-stack means we own the stack from silicon to inference endpoint, optimised end to end.\n' +
+        '   • Low TCO at the inference layer is the buyer-visible outcome.\n' +
+        '   • Sovereignty is the unlock with regulated buyers, not the lead with engineering buyers.\n' +
+        '• On the slide: keep it short, two beats. The detail lives in the next three slides.\n' +
+        '• If asked why digital natives first: shorter cycles, technical buyer, fewer committee gates, references compound into Motion 2.'
+    },
+
+    /* ================================================================ */
+    /* 19. Two motions, one ecosystem (diagram)                         */
+    /* ================================================================ */
+    {
+      id: 'slide-20-two-motions',
+      archetype: 'diagram',
+      orient: '04 / territory',
+      data: {
+        headline: 'Two motions in parallel, one ecosystem feeding both',
         motions: [
           {
             label: 'Motion 1',
-            headline: 'AI-natives, fast.',
+            headline: 'Digital natives',
             accent: 'lime',
             lines: [
-              'Engineering-led entry, founder and CTO conversations.',
-              'Close on technical merit, Token Factory and dedicated GPU.',
-              'Booking.com, Adyen, TomTom, Picnic, Cradle.bio, Weaviate.'
+              'Engineering-led',
+              'Fast cycles',
+              'Close on technical merit'
             ]
           },
           {
             label: 'Motion 2',
-            headline: 'Enterprise, slower.',
+            headline: 'Enterprise',
             accent: 'purple',
             lines: [
-              'Top-down, multi-threaded, committee-driven.',
-              'Anchored by sovereignty, DORA, NIS2, and the EU AI Act.',
-              'KBC, the ABN AMRO and ING and Rabobank trilateral, Philips HealthSuite, DPG Media.'
+              'Top-down, multi-threaded',
+              'Anchored by sovereignty and compliance'
             ]
           }
         ],
         band: {
           label: 'Horizontal layer feeding both',
-          text: 'VC ecosystem (Index Ventures) plus Nebius DevRel and AI House Amsterdam.'
+          text: 'VC ecosystem, DevRel, and AI House Amsterdam'
         }
       },
-      notes: 'Ninety seconds. Walk the two motions, then point at the band underneath. The same VC and DevRel layer feeds both, which is the structural advantage. This is also where Index Ventures comes back, tying to the Section 1 closing line.'
+      notes:
+        '• [DRAFT]\n' +
+        '• Walk the two motions left to right, then drop to the band underneath.\n' +
+        '• Same ecosystem layer warms both motions; that is the structural advantage.\n' +
+        '• Motion 1 closes on technical merit; engineering buyers are the wedge.\n' +
+        '• Motion 2 closes on sovereignty plus compliance; committee buyers carry DORA, NIS2 and the EU AI Act.\n' +
+        '• Index Ventures, DevRel, AI House do not pick a side; they make both motions cheaper to start.'
     },
 
+    /* ================================================================ */
+    /* 20. Why now (timeline)                                           */
+    /* ================================================================ */
     {
-      id: 'slide-4-3-why-now',
+      id: 'slide-21-why-now',
       archetype: 'timeline',
+      orient: '04 / territory',
       data: {
-        eyebrow: 'Section 4, why Benelux, why now',
-        headline: 'A regulatory forcing function, dated.',
+        headline: 'Why now: the regulatory window is open',
         items: [
           {
             date: 'Nov 2025',
-            text: 'Every major Dutch news organization co-signs a joint letter against US and Chinese AI scraping, coordinated by Stichting Democratie en Media.',
+            text: 'Dutch media coalition rejects US and Chinese AI scraping.',
             accent: 'purple'
           },
           {
             date: 'Feb 2026',
-            text: 'Rabobank, ABN AMRO and ING publicly announce a trilateral plan to reduce dependence on US technology providers.',
+            text: 'Rabobank, ABN AMRO and ING move to cut US-tech dependence.',
             accent: 'lime'
           },
           {
             date: '2026 to 2027',
-            text: 'EU AI Act, DORA and NIS2 converge. Compute that stays in Europe becomes a procurement requirement, not a nice-to-have.',
+            text: 'EU AI Act, DORA and NIS2 converge.',
             accent: 'purple'
           }
         ],
-        footer: 'Amsterdam HQ, major data center in Finland, large GPU cluster in Paris, Nasdaq-listed, no CLOUD Act exposure. The cleanest sovereignty story in the market.'
+        footer: 'Nebius is the cleanest answer: Amsterdam-headquartered, EU data centers, Nasdaq-listed, outside the US CLOUD Act.'
       },
-      notes: 'A hundred seconds. This is the strongest, most specific argument in the deck. Give it real space. The trilateral plus the media letter is what makes the conversation different from any abstract sovereignty pitch.'
+      notes:
+        '• [DRAFT]\n' +
+        '• Strongest, most specific argument in the deck; give it space.\n' +
+        '• Nov 2025: Stichting Democratie en Media coordinated; every major Dutch news org signed.\n' +
+        '• Feb 2026: the trilateral is the procurement signal, not a PR line.\n' +
+        '• 2026 to 2027: compute that stays in Europe becomes a procurement requirement, not a nice-to-have.\n' +
+        '• Footer line carries the Nebius positioning: Amsterdam HQ, Finland DC, Paris GPU cluster, Nasdaq-listed, no CLOUD Act exposure.\n' +
+        '• Cleanest sovereignty story in the market; do not oversell it, the dates do the work.'
     },
 
+    /* ================================================================ */
+    /* 21. Five accounts to land first (cards)                          */
+    /* ================================================================ */
     {
-      id: 'slide-4-4-ai-natives',
+      id: 'slide-22-five-accounts',
       archetype: 'cards',
+      orient: '04 / territory',
       data: {
-        eyebrow: 'Section 4, AI-natives in active cycle',
-        headline: 'Five accounts to land first.',
+        headline: 'Five accounts to land first',
         cards: [
           {
             headline: 'Booking.com',
-            lines: ['480 ML models, 400B predictions per day.', 'Foundation models for personalization on the roadmap.']
+            logoSrc: 'images/logos/booking.svg',
+            accent: 'lime',
+            lines: [
+              '480 ML models, 400B predictions a day',
+              'Personalization foundation models on the roadmap'
+            ],
+            tag: 'GPU, pre-training'
           },
           {
             headline: 'Adyen',
-            lines: ['1.4B parameter foundation model in build.', 'Compute is the binding constraint, our wedge.']
+            logoSrc: 'images/logos/adyen.svg',
+            accent: 'lime',
+            lines: [
+              '1.4B-parameter model in build',
+              'Compute is the binding constraint'
+            ],
+            tag: 'GPU, pre-training'
           },
           {
             headline: 'TomTom',
-            lines: ['Orbis Maps, continuous training plus inference.', 'Be their European training partner, not displacement.']
+            logoSrc: 'images/logos/tomtom.svg',
+            lines: [
+              'Orbis Maps, continuous training',
+              'Be their European training partner'
+            ],
+            tag: 'GPU training and Token Factory'
           },
           {
             headline: 'Picnic and Cradle.bio',
-            lines: ['Picnic trains in-house, forecasting through agentic ordering.', 'Cradle on sovereignty, warm via the UCSF protein reference.']
+            logoSrcs: ['images/logos/picnic.svg', 'images/logos/cradle.svg'],
+            lines: [
+              'Picnic trains in-house',
+              'Cradle warm via the UCSF protein reference'
+            ],
+            tags: [
+              'Picnic: GPU, in-house training',
+              'Cradle.bio: Token Factory, inference'
+            ]
           }
         ]
       },
-      notes: 'A hundred seconds. Only the active-cycle subset. The full list is back-pocket for live Q and A, deliberately not on this slide. The point is a pause, not a directory.'
+      notes:
+        '• [DRAFT]\n' +
+        '• Only the active-cycle subset. The full list is back-pocket for live Q and A.\n' +
+        '• Booking and Adyen are the structural prizes; both have compute as their binding constraint.\n' +
+        '• TomTom positioned as European training partner, not displacement of an incumbent.\n' +
+        '• Cradle path is the UCSF protein reference; warm intro, not cold pursuit.'
     },
 
+    /* ================================================================ */
+    /* 22. Where the references lead, four enterprise targets (cards)   */
+    /* ================================================================ */
     {
-      id: 'slide-4-5-enterprise',
+      id: 'slide-23-enterprise-targets',
       archetype: 'cards',
+      orient: '04 / territory',
       data: {
-        eyebrow: 'Section 4, enterprise',
-        headline: 'Four anchors for the slower motion.',
+        headline: 'Where the references lead: four enterprise targets',
         cards: [
           {
             headline: 'KBC',
-            lines: ['Kate serves 6M customers across five countries.', 'Agentic launch in 2026 compounds token demand.']
+            logoSrc: 'images/logos/kbc.svg',
+            accent: 'purple',
+            lines: [
+              'Kate serves 6M customers',
+              'Agentic launch in 2026 compounds token demand'
+            ],
+            tag: 'Token Factory, inference'
           },
           {
-            headline: 'NL banking trilateral',
-            lines: ['Rabobank, ABN AMRO, ING.', 'Largest uncommitted sovereign inference budget in NL.']
+            headline: 'The Dutch big three',
+            logoSrcs: [
+              'images/logos/rabobank.svg',
+              'images/logos/abnamro.svg',
+              'images/logos/ing.svg'
+            ],
+            accent: 'purple',
+            lines: [
+              'Rabobank, ABN AMRO, ING',
+              'Largest uncommitted sovereign inference budget in NL'
+            ],
+            tag: 'Token Factory, inference'
           },
           {
             headline: 'Philips HealthSuite',
-            lines: ['Cloud informatics across radiology and pathology.', 'EU residency conversation, faster than full Philips.']
+            logoSrc: 'images/logos/philips.svg',
+            lines: [
+              'Cloud informatics across radiology and pathology',
+              'EU-residency conversation'
+            ],
+            tag: 'GPU retraining and Token Factory'
           },
           {
             headline: 'DPG Media and RTL',
-            lines: ['Fresh tech stack post-merger, CTO-led.', 'Streaming, ad targeting and generative tools at scale.']
+            logoSrcs: ['images/logos/dpg.svg', 'images/logos/rtl.svg'],
+            lines: [
+              'Fresh post-merger stack',
+              'CTO-led'
+            ],
+            tag: 'Token Factory, inference'
           }
         ]
       },
-      notes: 'A hundred seconds. Same grammar as the AI-natives slide. Anchor accounts, not the full list. KBC and the trilateral are the structural prizes.'
+      notes:
+        '• Frame: these are the four enterprise targets where the door is unusually wide open right now, not generic logos on a map.\n' +
+        '\n' +
+        'KBC\n' +
+        '• Their AI assistant Kate is the most ambitious bank-built consumer agent in BeNeLux, already used by ~6M customers across retail banking and insurance.\n' +
+        '• Public commitment to push Kate into agentic in 2026 (executing actions, not just answering questions) means inference volume compounds, not linear growth.\n' +
+        '• Recent statements from Erik Luts and team explicitly call out the need for European AI infrastructure for data-residency reasons; this is a real budget conversation, not a sovereignty press release.\n' +
+        '\n' +
+        'The Dutch banks (Rabobank, ABN AMRO, ING)\n' +
+        '• All three have issued joint and parallel statements through 2025-2026 about reducing dependence on US hyperscalers, partly under DORA, partly NIS2, partly Schrems II overhang.\n' +
+        '• ING is the most public on AI scale; ABN AMRO is furthest on internal LLM platforms; Rabobank is the heaviest on agriculture / cooperative segments where data residency is non-negotiable.\n' +
+        '• This is the single largest uncommitted sovereign inference budget in NL — they will land somewhere, and the question is whether it lands on a US-headquartered EU region or on a genuinely European stack.\n' +
+        '• Multi-thread strategy: do not pitch one logo, pitch the trilateral as a category, then split the threads at the working-team level.\n' +
+        '\n' +
+        'Philips HealthSuite\n' +
+        '• Not the entire Philips group; specifically the HealthSuite cloud informatics layer, where radiology and pathology workloads need EU-resident inference.\n' +
+        '• Already has cloud governance posture, already has the regulator conversation, much shorter cycle than other Philips business units.\n' +
+        '• Adjacent reference value: every other EU hospital network watches what HealthSuite does.\n' +
+        '\n' +
+        'DPG Media and RTL\n' +
+        '• The RTL Nederland + DPG Media combination is a rare greenfield post-merger stack — the merged entity has not yet picked its long-term cloud and inference partner for content personalisation, recommendation, and the increasingly heavy LLM-assisted production workloads.\n' +
+        '• CTO-led decision; the merger gives the new CTO political cover to make a structural choice rather than inherit two legacy contracts.\n' +
+        '• Strong narrative fit: European media sovereignty is now a public policy theme; choosing a European inference partner is on-brand for both DPG and RTL brand-safety positioning.\n' +
+        '• Pitch hook: offer to be the partner that lets them avoid renegotiating with their previous incumbent contracts side by side.'
     },
 
+    /* ================================================================ */
+    /* 23. The ecosystem layer (cards, 3 elements)                      */
+    /* ================================================================ */
     {
-      id: 'slide-4-6-vc-differentiator',
+      id: 'slide-24-ecosystem',
       archetype: 'cards',
+      orient: '04 / territory',
       data: {
-        eyebrow: 'Section 4, the VC differentiator',
-        headline: 'Index Ventures is the warm path nobody else has.',
+        headline: 'The ecosystem layer feeding both motions',
         cards: [
           {
-            headline: 'Portfolio overlap',
-            lines: ['Weaviate, DataSnipper, Tebi, Duna.', 'All four are direct Nebius targets.']
+            headline: 'VC relationships',
+            accent: 'lime',
+            lines: [
+              'Index Ventures portfolio overlap',
+              'Weaviate, DataSnipper, Tebi, Duna'
+            ]
           },
           {
-            headline: 'Partner-level access',
-            lines: ['Existing personal connections at partner level.', 'Warm intros to multiple portfolios at once.']
+            headline: 'DevRel',
+            lines: [
+              'Technical credibility with the AI engineers who own the workloads'
+            ]
           },
           {
-            headline: 'Pipeline multiplier',
-            lines: ['Runs alongside direct sales, not a separate function.', 'Ties back to the Google EMEA VC playbook I already shipped.']
+            headline: 'AI House Amsterdam',
+            accent: 'purple',
+            lines: [
+              'The Prosus-run hub where the Benelux AI community concentrates'
+            ]
           }
         ]
       },
-      notes: 'Ninety seconds. This is the slide that ties back to the Section 1 closing line about the VC community. The panel should hear that connective logic.'
+      notes:
+        '• Warm VC path is something few competitors have.\n' +
+        '• Partner-level access at Index warms introductions across multiple portfolios at once.\n' +
+        '• Weaviate is the live reference: vector-database leader, AI-native, Index portfolio overlap. I have worked with them directly on case-study material.\n' +
+        '• DevRel matters because the engineers we are selling to read code, not decks.\n' +
+        '• AI House Amsterdam is the room where Benelux AI engineers already gather; Nebius presence there is a low-cost, high-trust signal.'
     },
 
+    /* ================================================================ */
+    /* 24. First moves (cards)                                          */
+    /* ================================================================ */
     {
-      id: 'slide-4-7-first-90-days',
-      archetype: 'data',
+      id: 'slide-25-first-moves',
+      archetype: 'cards',
+      orient: '04 / territory',
       data: {
-        eyebrow: 'Section 4, the first ninety days',
-        headline: 'Two PoCs in build. One pilot in financial services.',
-        callouts: [
-          { value: '2', unit: 'PoCs', label: 'pre-training prospects converted to named PoCs' },
-          { value: '1', unit: 'pilot', label: 'Token Factory post-training pilot in financial services' },
-          { value: '5', unit: 'Index intros', label: 'warm partner-level introductions opened' },
-          { value: '1', unit: 'AI House event', label: 'Nebius DevRel presence at Prosus AI House' }
-        ],
-        bars: {
-          title: 'Ninety-day milestones, by week',
-          unit: 'cumulative count',
-          series: [
-            { label: 'Wk 0 to 3', value: 1, color: 'purple' },
-            { label: 'Wk 4 to 6', value: 3, color: 'purple' },
-            { label: 'Wk 7 to 9', value: 5, color: 'purple' },
-            { label: 'Wk 10 to 13', value: 8, color: 'lime' }
-          ]
-        }
+        headline: 'First moves',
+        sub: 'Four parallel tracks, from week one',
+        cards: [
+          {
+            headline: 'Go deep early',
+            accent: 'lime',
+            lines: [
+              'Shadow calls, learn product and customers in depth before pitching anything'
+            ]
+          },
+          {
+            headline: 'Net-new AI workloads',
+            lines: [
+              'No incumbent, no migration risk, cycles fast enough to land early'
+            ]
+          },
+          {
+            headline: 'Activate the ecosystem',
+            accent: 'purple',
+            lines: [
+              'Prosus and Index Ventures, warm intros into digital natives'
+            ]
+          },
+          {
+            headline: 'Multi-threaded outreach',
+            lines: [
+              'Alongside the BDR, from week one, across both motions'
+            ]
+          }
+        ]
       },
-      notes: 'Eighty seconds. End on execution, not on a vision statement. The lime bar is week ten to thirteen because that is when the first cycle compounds into the second.'
+      notes:
+        '• Net-new workloads avoid switching cost and incumbent inertia; they are the wedge.\n' +
+        '• Migration deals (e.g. the Picnic cost-saving story) are a later play, not the first ninety days.\n' +
+        '• Ecosystem activation is cheap pipeline; the BDR runs the volume, I run the depth.\n' +
+        '• Shadowing first; do not pitch what I do not yet understand.\n' +
+        '• Speaker bridge into the next slide: to do this fast I need four things from Nebius.'
+    },
+
+    /* ================================================================ */
+    /* 25. What I'd need to move fast (cards)                           */
+    /* ================================================================ */
+    {
+      id: 'slide-26-what-id-need',
+      archetype: 'cards',
+      orient: '04 / territory',
+      data: {
+        headline: "What I'd need to move fast",
+        cards: [
+          {
+            headline: 'Engineering access',
+            accent: 'lime',
+            lines: [
+              'Learn the product by shadowing engineers, not from decks'
+            ]
+          },
+          {
+            headline: 'Reference customers',
+            lines: [
+              'Including the ones not yet public'
+            ]
+          },
+          {
+            headline: 'Modern GTM stack',
+            lines: [
+              'Tooling that lets me operate at speed'
+            ]
+          },
+          {
+            headline: "Gary's experience",
+            accent: 'purple',
+            lines: [
+              'In the room on the largest deals'
+            ]
+          }
+        ]
+      },
+      notes:
+        '• On the last point: what I want from Gary is to be in the room on the largest multi-stakeholder deals and learn how a twenty-five-year veteran navigates them.\n' +
+        '• Coachability and hunger to get better. Intelligent, coachable, hungry. Not a need for supervision.\n' +
+        '• Engineering access is the difference between a credible AE and a brochure.\n' +
+        '• Reference customers, including ones still in stealth, accelerate Motion 1 on technical merit.'
+    },
+
+    /* ================================================================ */
+    /* 26. Challenges I anticipate (cards, 3 pairs)                     */
+    /* ================================================================ */
+    {
+      id: 'slide-27-challenges',
+      archetype: 'cards',
+      orient: '04 / territory',
+      data: {
+        headline: 'Challenges I anticipate',
+        sub: 'Honest read on the three things that could slow me down',
+        cards: [
+          {
+            headline: 'Prioritisation',
+            accent: 'lime',
+            lines: [
+              'Walk away from deals that look big but have no cycle',
+              'Discipline beats coverage'
+            ]
+          },
+          {
+            headline: 'Speed to first revenue',
+            lines: [
+              'An early genuine win beats a perfect one',
+              'Prefer Q1 signature over Q4 ideal'
+            ]
+          },
+          {
+            headline: 'Incumbent competition',
+            accent: 'purple',
+            lines: [
+              'Compete on specialised infrastructure and proof',
+              'Sovereignty alone will not carry the engineering buyer'
+            ]
+          }
+        ]
+      },
+      notes:
+        '• Sovereignty lands hard with the banks but is weaker elsewhere; I am honest about that.\n' +
+        '• On prioritisation, the discipline is to walk away from deals that look big but have no cycle.\n' +
+        '• On speed: I would rather sign a smaller deal in quarter one than a perfect deal in quarter four.\n' +
+        '• On incumbents: technical proof beats sovereignty rhetoric every time with engineering buyers.\n' +
+        '• Speaker bridge into closing: real workloads, real budgets, market ready to move.'
+    },
+
+    /* ================================================================ */
+    /* 27. Closing (statement)                                          */
+    /* ================================================================ */
+    {
+      id: 'slide-28-closing',
+      archetype: 'statement',
+      orient: '04 / territory',
+      data: {
+        headline: 'Real workloads, real budgets, a market ready to move',
+        sub: 'Dense enough for one AE and a BDR to cover, big enough to matter.',
+        accent: true
+      },
+      notes:
+        '• Full ambition from the territory plan:\n' +
+        '   • Nine accounts in active or near-term buying cycles.\n' +
+        '   • Two motions in parallel feed each other through the ecosystem layer.\n' +
+        '   • Why moving now matters: regulatory window is open and the AI-natives are pre-committing compute.\n' +
+        '• Land calmly. Hand off to Q and A.'
     }
   ]
 };
